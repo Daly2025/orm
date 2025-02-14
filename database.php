@@ -1,34 +1,26 @@
 <?php
-
 require 'vendor/autoload.php';
+require 'config.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-// Configuración de la conexión a la base de datos
+// Configuración de la conexión
 $capsule = new Capsule;
-
 $capsule->addConnection([
-    'driver' => 'mysql',
-    'host' => '127.0.0.1',
-    'database' => 'sakila',
-    'username' => 'root',
-    'password' => '',
-    'charset' => 'utf8',
+    'driver'    => 'mysql',         // o 'sqlite', 'pgsql', 'sqlsrv'
+    'host'      => HOST,
+    'database'  => DB_DATABASE,
+    'username'  => DB_USER,
+    'password'  => DB_PASS,
+    'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
-    'prefix' => '',
+    'prefix'    => '',
 ]);
 
-// Configurar Eloquent para usar la base de datos
+// Hacer que Capsule esté disponible de manera global
 $capsule->setAsGlobal();
+
+// Arrancar Eloquent ORM
 $capsule->bootEloquent();
 
-// Crear un nuevo usuario
-$user = new User;
-$user->name = 'Juan Pérez';
-$user->email = 'juanperez@example.com';
-$user->password = bcrypt('mi_contraseña'); // Usamos bcrypt para encriptar la contraseña
-
-// Guardar el nuevo usuario en la base de datos
-$user->save();
-
-echo "Usuario insertado correctamente!";
+?>
